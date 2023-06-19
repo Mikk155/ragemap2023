@@ -1,100 +1,151 @@
+#include 'Messager'
+#include 'Characters'
+#include 'Doors'
+#include 'utils'
+#include 'inputs'
+#include 'trigger_multiple'
+
 namespace mikk
 {
-    CScheduledFunction@ g_Think = g_Scheduler.SetInterval( "CThink", 0.0f );
-
-    const string GameMode = ( g_PlayerFuncs.GetNumPlayers() < 2 'singleplayer' : 'multiplayer' );
-
-    void CThink()
+    void MapInit()
     {
-        for( int iPlayer = 1; iPlayer <= g_Engine.maxClients; iPlayer++ )
+        g_Game.PrecacheModel( 'sprites/bubble.spr' );
+
+        g_Game.PrecacheGeneric( 'sprites/bubble.spr' );
+
+        g_Game.PrecacheModel( 'sprites/ragemap2023/mikk/timer.spr' );
+        g_Game.PrecacheGeneric( 'sprites/ragemap2023/mikk/timer.spr' );
+
+        g_CustomEntityFuncs.RegisterCustomEntity( 'mikk_triggerradius', 'mikk_triggerradius' );
+        g_CustomEntityFuncs.RegisterCustomEntity( 'mikk_doors', 'mikk_doors' );
+    }
+
+    void MyPartStarts( CBaseEntity@ pActivator, CBaseEntity@ pCaller, USE_TYPE UseType, float fdelay )
+    {
+        g_Hooks.RegisterHook( Hooks::Player::PlayerKilled, @PlayerKilled );
+        g_Hooks.RegisterHook( Hooks::Player::PlayerPreThink, @ClientThink );
+    }
+
+    void MyPartEnds( CBaseEntity@ pActivator, CBaseEntity@ pCaller, USE_TYPE UseType, float fdelay )
+    {
+        g_Hooks.RemoveHook( Hooks::Player::PlayerKilled, @PlayerKilled );
+        g_Hooks.RemoveHook( Hooks::Player::PlayerPreThink, @ClientThink );
+    }
+
+    void SpawnStart( CBaseEntity@ pActivator, CBaseEntity@ pCaller, USE_TYPE UseType, float fdelay )
+    {
+        if( pActivator !is null && pActivator.IsPlayer() )
         {
-            CBasePlayer@ pPlayer = g_PlayerFuncs.FindPlayerByIndex( iPlayer );
-            CBaseEntity@ camera = @g_GetCamera( pPlayer );
+            CBasePlayer@ pPlayer = cast<CBasePlayer@>( pActivator );
 
-            if( camera is null || pPlayer is null )
-                continue;
-
-            camera.pev.origin = pPlayer.pev.origin + Vector( 0, -150, 0 ); 
-            pPlayer.pev.fixangle = FAM_FORCEVIEWANGLES;
-            pPlayer.pev.angles = Vector( 0, -90, 0 );
-
-            camera.Use( pPlayer, pPlayer, ( pPlayer.IsAlive() ? USE_ON : USE_OFF ), 0.0f );
-
-            if( GameMode == 'singleplayer' && pPlayer.pev.button & IN_SCORE != 0 )
+            if( pPlayer !is null )
             {
-                CambiarCharacter( pPlayer );
+                g_Utils.CKV( pPlayer, '$v_mikk_oldorigin_fireboy', pPlayer.pev.origin.ToString() );
+                g_Utils.CKV( pPlayer, '$v_mikk_oldorigin_watergirl', pPlayer.pev.origin.ToString() );
+                g_Utils.CKV( pPlayer, '$v_mikk_origin_fireboy', pPlayer.pev.origin.ToString() );
+                g_Utils.CKV( pPlayer, '$v_mikk_origin_watergirl', pPlayer.pev.origin.ToString() );
+                pPlayer.pev.renderfx = kRenderFxGlowShell;
+                pPlayer.pev.rendercolor = Vector( 255, 0, 0 );
             }
         }
     }
 
-    void CambiarCharacter( CBasePlayer@ pPlayer )
-    {
-        Vector vecOut = g_EntityFuncs.FindEntityByTargetname( null, "mikk_waterpoint" ).pev.origin;
-        Vector auxVectorOrigin = pPlayer.pev.origin;
-        
-        if(!pPlayer.GetUserData().exists( "old_player_origin" ) || !pPlayer.GetUserData().exists( "player_delay_teleport" ))
-        {
-			pPlayer.SetOrigin( vecOut );
-			pPlayer.GetUserData( "old_player_origin" ) = auxVectorOrigin.ToString(); 
-			pPlayer.GetUserData( "player_delay_teleport" ) = g_Engine.time + 1.5; 
-		}
-
-		if(float(pPlayer.GetUserData( "player_delay_teleport" )) <= g_Engine.time)
-		{
-			g_Utility.StringToVector( vecOut, string(pPlayer.GetUserData( "old_player_origin" )) );
-			pPlayer.SetOrigin( vecOut );
-			pPlayer.GetUserData( "old_player_origin" ) = auxVectorOrigin.ToString(); 
-			pPlayer.GetUserData( "player_delay_teleport" ) = g_Engine.time + 1.5; 
-		}
-    }
-
-    CBaseEntity@ g_GetCamera( CBasePlayer@ pPlayer )
+    HookReturnCode ClientThink( CBasePlayer@ pPlayer, uint& out uiFlags )
     {
         if( pPlayer !is null )
         {
-            string m_iszPlayerID = string( g_EngineFuncs.GetPlayerAuthId( pPlayer.edict() ) );
+            g_Imputs.Jump( pPlayer );
+            g_Imputs.DontExploitSpeed( pPlayer );
 
-            CBaseEntity@ cam = g_EntityFuncs.FindEntityByTargetname( g_EntityFuncs.Instance( Players ), m_iszPlayerID );
+            g_Message.ShowTimer( pPlayer );
 
-            if( cam is null )
-            {
-                dictionary g_kz;
-                g_kz[ 'angles' ] = '0 90 0';
-                g_kz['spawnflags'] = '512';
-                g_kz['max_player_count'] = '1';
-                g_kz['targetname'] = m_iszPlayerID;
-                g_EntityFuncs.CreateEntity( "trigger_camera", g_kz );
-                return null;
-            }
-            return cam;
+            g_Characters.TrackCamera( pPlayer );
+            g_Characters.SwapCharacter( pPlayer );
         }
-        return null;
+        return HOOK_CONTINUE;
     }
 
-    string CKV( CBaseEntity@ pEntity, string szKey ){ return pEntity.GetCustomKeyvalues().GetKeyvalue( '$s_' + szKey ).GetString(); }
-    int CKV( CBaseEntity@ pEntity, string szKey ){ return pEntity.GetCustomKeyvalues().GetKeyvalue( '$i_' + szKey ).GetInteger(); }
-
-    enum firenwater_water_flags
+    HookReturnCode PlayerKilled( CBasePlayer@ pPlayer, CBaseEntity@ pAttacker, int iGib )
     {
-        WATER_ACID = 0,
-        WATER_LAVA = 1,
-        WATER_WATER = 2
-    }
-/*
-    class firenwater_wate : ScriptBaseEntity, ScriptBaseCustomEntity
-    {
-        private bool IsValid( CBaseEntity@ p ){ return ( p !is null && p.ISAlive() && p.IsPlayer() ) }
-
-        void Touch( CBaseEntity@ pOther )
+        if( pPlayer !is null )
         {
-            if( IsValid ( pOther ) )
+            g_Scheduler.SetTimeout( "DelRev", 0.0f, @pPlayer );
+        }
+        return HOOK_CONTINUE;
+    }
+
+    void DelRev( CBasePlayer@ pPlayer )
+    {
+        pPlayer.Revive();
+        g_Characters.CharacterDie( pPlayer );
+    }
+
+    void TimeInit( CBaseEntity@ trigger_script )
+    {
+        int minuto = atoi( trigger_script.pev.message );
+        int segundo = ( trigger_script.pev.iuser2 <= 0 ) ? 59 : trigger_script.pev.iuser2;
+
+        CBaseEntity@ text = g_EntityFuncs.FindEntityByTargetname( null, trigger_script.pev.target );
+
+        if( text !is null )
+        {
+            text.pev.message = 'Time Left: \'' + string( minuto ) + ':' + ( segundo > 9 ? string( segundo ) : '0' + string( segundo ) ) + '\'\n';
+            text.Use( trigger_script, trigger_script, USE_ON, 0.0f );
+        }
+
+        if( minuto < 1 && segundo < 1 )
+        {
+            g_EntityFuncs.FireTargets( string( trigger_script.pev.netname ), null, null, USE_ON, 0.0f );
+            trigger_script.Use( null, null, USE_OFF, 0.0f );
+            return;
+        }
+        else if( segundo == 0 )
+        {
+            trigger_script.pev.message = string( minuto + 1 );
+            trigger_script.pev.iuser2 = 59;
+        }
+        else
+        {
+            trigger_script.pev.iuser2 = segundo - 1;
+        }
+    }/*
+
+
+
+    namespace FLUIDS
+    {
+            //g_Game.AlertMessage( at_console, '"' + string( pPlayer.pev.waterlevel ) + '"\n' );
+
+        class CFluids : ScriptBaseEntity
+        {
+            void Spawn()
             {
-                if(self.pev.iuser1 == WATER_LAVA && CKV( pOther, 'element' ) == WATER_LAVA
-                or self.pev.iuser1 == WATER_WATER && CKV( pOther, 'element' ) == WATER_WATER )
+                //self.pev.effects |= EF_NODRAW;
+                self.pev.movetype = MOVETYPE_NONE;
+                self.pev.solid = SOLID_TRIGGER;
+
+                g_EntityFuncs.SetOrigin( self, self.pev.origin );
+                g_EntityFuncs.SetModel( self, string( self.pev.model ) );
+                g_EntityFuncs.SetSize( self.pev, self.pev.mins, self.pev.maxs );
+			    SetTouch( TouchFunction( this.Touch ) );
+
+                dictionary g_Water;
+                g_Water['origin'] = self.pev.origin.ToString();
+                g_Water['WaveHeight'] ='3.0';
+                g_Water['model'] =string( self.pev.model );
+                g_EntityFuncs.CreateEntity( "func_water", g_Water, true );
+            }
+            void Touch( CBaseEntity@ pOther )
+            {
+                        g_Game.AlertMessage( at_console, 'si sexo fluido ekisde' );
+                if( pOther !is null && pOther.IsPlayer() && pOther.IsAlive() )
                 {
-                    return;
+                    if( self.pev.classname == 'watergirl_fluid' && pOther.pev.targetname != 'watergirl'
+                    or  self.pev.classname == 'fireboy_fluid' && pOther.pev.targetname != 'fireboy'
+                    or  self.pev.classname == 'acid_fluid'  )
+                    {
+                    }
                 }
-                pOther.TakeDamage( self, self, 100.0f, ( CKV( pOther, 'element' ) == WATER_LAVA ) ? DMG_BURN : ( CKV( pOther, 'element' ) == WATER_WATER ) ? DMG_DROWN : DMG_RADIATION );
             }
         }
     }*/

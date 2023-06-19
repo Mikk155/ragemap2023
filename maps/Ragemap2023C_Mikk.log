@@ -1,0 +1,288 @@
+hlcsg v4.0-VL-SC 64-bit (Oct 30 2020)
+Zoner's Half-Life Compilation Tools -- Custom build for Sven Co-op 
+Based on code modifications by Vluzacn (VL)
+Based on code modifications by Sean "Zoner" Cavanaugh (4.0)
+Based on Valve's version, modified with permission.
+Submit detailed bug reports to http://forums.svencoop.com
+-----  BEGIN  hlcsg -----
+Command line: "Z:/home/martin/.steam/debian-installation/steamapps/common/Sven Co-op SDK/mapping/compilers/SC-CSG_x64.exe" "Z:\home\martin\.steam\debian-installation\steamapps\common\Sven Co-op\svencoop_addon\maps\Ragemap2023C_Mikk" 
+Arguments: "Z:\home\martin\.steam\debian-installation\steamapps\common\Sven Co-op\svencoop_addon\maps\Ragemap2023C_Mikk" 
+Entering Z:\home\martin\.steam\debian-installation\steamapps\common\Sven Co-op\svencoop_addon\maps\Ragemap2023C_Mikk.map
+
+-= Current hlcsg Settings =-
+Setting                        |  Map value            |  Default value        
+-------------------------------|-----------------------|-----------------------
+Verbose                         [                 off ] [                 off ]
+Log                             [                  on ] [                  on ]
+Developer mode                  [                   0 ] [                   0 ]
+Estimate times                  [                 off ] [                 off ]
+Statistics chart                [                 off ] [                 off ]
+CPU thread count                [                   2 ] [              Varies ]
+CPU process priority            [              Normal ] [              Normal ]
+Texture data memory limit       [            67108864 ] [            67108864 ]
+Lighting data memory limit      [            67108864 ] [            67108864 ]
+
+Entities only                   [                 off ] [                 off ]
+WAD textures                    [                  on ] [                  on ]
+Clipping hull generation        [                  on ] [                 off ]
+Clipping economy mode           [                 off ] [                 off ]
+Clipping hull type              [              Simple ] [              Simple ]
+Custom hull file                [                None ] [                None ]
+Sky brush clipping              [                  on ] [                  on ]
+Minimum surface area            [               0.000 ] [               0.000 ]
+Brush union threshold           [               0.000 ] [               0.000 ]
+NULL texture substitutions file [                None ] [                None ]
+WAD configuration file          [                None ] [                None ]
+WAD configuration name          [                None ] [                None ]
+WAD auto-detect                 [                 off ] [                  on ]
+Strip null texture faces        [                  on ] [                  on ]
+Strip trigger texture faces     [                  on ] [                  on ]
+Optimize engine light entities  [                  on ] [                  on ]
+Convert game_text ANSI to UTF-8 [                  on ] [                  on ]
+Scale the world                 [                None ] [                None ]
+
+
+Using mapfile wad configuration
+Wadinclude list :
+[zhlt.wad]
+
+CreateBrush:
+ (0.02 seconds)
+CSGBrush:
+ (0.05 seconds)
+
+Including Wadfile: /home/martin/.steam/debian-installation/steamapps/common/Sven Co-op/svencoop/zhlt.wad
+ - Contains 1 used texture, 12.50 percent of map (19 textures in wad)
+Using Wadfile: /home/martin/.steam/debian-installation/steamapps/common/Sven Co-op/svencoop/halflife.wad
+ - Contains 5 used textures, 62.50 percent of map (3116 textures in wad)
+Using Wadfile: /home/martin/.steam/debian-installation/steamapps/common/Sven Co-op/svencoop/lcd_display.wad
+ - Contains 0 used textures, 0.00 percent of map (48 textures in wad)
+Using Wadfile: /home/martin/.steam/debian-installation/steamapps/common/Sven Co-op/svencoop/xeno.wad
+ - Contains 0 used textures, 0.00 percent of map (264 textures in wad)
+Using Wadfile: /home/martin/.steam/debian-installation/steamapps/common/Sven Co-op/svencoop_addon/mikkrage.wad
+ - Contains 2 used textures, 25.00 percent of map (16 textures in wad)
+
+Wad files required to run the map: "halflife.wad;lcd_display.wad;xeno.wad;mikkrage.wad;"
+Texture usage is at 0.08 mb (of 64.00 mb MAX)
+0.18 seconds elapsed
+
+-----   END   hlcsg -----
+
+
+
+hlbsp v4.0-VL-SC 64-bit (Oct 30 2020)
+Zoner's Half-Life Compilation Tools -- Custom build for Sven Co-op 
+Based on code modifications by Vluzacn (VL)
+Based on code modifications by Sean "Zoner" Cavanaugh (4.0)
+Based on Valve's version, modified with permission.
+Submit detailed bug reports to http://forums.svencoop.com
+-----  BEGIN  hlbsp -----
+Command line: "Z:/home/martin/.steam/debian-installation/steamapps/common/Sven Co-op SDK/mapping/compilers/SC-BSP_x64.exe" "Z:\home\martin\.steam\debian-installation\steamapps\common\Sven Co-op\svencoop_addon\maps\Ragemap2023C_Mikk" 
+Arguments: "Z:\home\martin\.steam\debian-installation\steamapps\common\Sven Co-op\svencoop_addon\maps\Ragemap2023C_Mikk" 
+
+-= Current hlbsp Settings =-
+Setting                        |  Map value            |  Default value        
+-------------------------------|-----------------------|-----------------------
+Verbose                         [                 off ] [                 off ]
+Log                             [                  on ] [                  on ]
+Developer mode                  [                   0 ] [                   0 ]
+Estimate times                  [                 off ] [                 off ]
+Statistics chart                [                 off ] [                 off ]
+CPU thread count                [                   2 ] [              Varies ]
+CPU process priority            [              Normal ] [              Normal ]
+Texture data memory limit       [            67108864 ] [            67108864 ]
+Lighting data memory limit      [            67108864 ] [            67108864 ]
+
+Leak only mode                  [                 off ] [                 off ]
+Face subdivide size             [                 528 ] [                 528 ]
+Maximum portal node size        [                1024 ] [                1024 ]
+Don't break edges on T-juncs?   [                 off ] [                 off ]
+Don't smooth brinks?            [                 off ] [                 off ]
+Don't process the clipping hull?[                 off ] [                 off ]
+Don't fill outside?             [                 off ] [                 off ]
+Don't fill empty spaces?        [                 off ] [                 off ]
+Don't optimize planes?          [                 off ] [                 off ]
+Don't optimize clip nodes?      [                 off ] [                 off ]
+Don't strip NULL textures?      [                 off ] [                 off ]
+Don't generate hull 2?          [                 off ] [                 off ]
+Show portal boundaries in PTS?  [                 off ] [                 off ]
+
+
+SolidBSP [hull 0] 102 (0.04 seconds)
+BSP generation successful, writing portal file 'Z:\home\martin\.steam\debian-installation\steamapps\common\Sven Co-op\svencoop_addon\maps\Ragemap2023C_Mikk.prt'
+SolidBSP [hull 1] 63 (0.01 seconds)
+SolidBSP [hull 2] 29 (0.00 seconds)
+SolidBSP [hull 3] 63 (0.03 seconds)
+Reduced 341 clipnodes to 335
+Reduced 73 texinfos to 61
+Reduced 8 texdatas to 8 (1468 bytes to 1468)
+Reduced 528 planes to 194
+FixBrinks:
+Increased 335 clipnodes to 335.
+0.22 seconds elapsed
+
+-----   END   hlbsp -----
+
+
+
+hlvis v4.0-VL-SC 64-bit (Oct 30 2020)
+Zoner's Half-Life Compilation Tools -- Custom build for Sven Co-op 
+Based on code modifications by Vluzacn (VL)
+Based on code modifications by Sean "Zoner" Cavanaugh (4.0)
+Based on Valve's version, modified with permission.
+Submit detailed bug reports to http://forums.svencoop.com
+-----  BEGIN  hlvis -----
+Command line: "Z:/home/martin/.steam/debian-installation/steamapps/common/Sven Co-op SDK/mapping/compilers/SC-VIS_x64.exe" "Z:\home\martin\.steam\debian-installation\steamapps\common\Sven Co-op\svencoop_addon\maps\Ragemap2023C_Mikk" 
+Arguments: "Z:\home\martin\.steam\debian-installation\steamapps\common\Sven Co-op\svencoop_addon\maps\Ragemap2023C_Mikk" 
+  22 portalleafs
+  39 numportals
+
+-= Current hlvis Settings =-
+Setting                        |  Map value            |  Default value        
+-------------------------------|-----------------------|-----------------------
+Verbose                         [                 off ] [                 off ]
+Log                             [                  on ] [                  on ]
+Developer mode                  [                   0 ] [                   0 ]
+Estimate times                  [                 off ] [                 off ]
+Statistics chart                [                 off ] [                 off ]
+CPU thread count                [                   2 ] [              Varies ]
+CPU process priority            [              Normal ] [              Normal ]
+Texture data memory limit       [            67108864 ] [            67108864 ]
+Lighting data memory limit      [            67108864 ] [            67108864 ]
+
+Fast mode                       [                 off ] [                 off ]
+Full mode                       [                 off ] [                 off ]
+
+
+BasePortalVis:
+ (0.01 seconds)
+LeafThread:
+ (0.01 seconds)
+average leafs visible: 8
+g_visdatasize:119  compressed from 66
+0.03 seconds elapsed
+
+-----   END   hlvis -----
+
+
+
+hlrad v4.0-VL-SC 64-bit (Oct 30 2020)
+Zoner's Half-Life Compilation Tools -- Custom build for Sven Co-op 
+Based on code modifications by Vluzacn (VL)
+Based on code modifications by Sean "Zoner" Cavanaugh (4.0)
+Based on Valve's version, modified with permission.
+Submit detailed bug reports to http://forums.svencoop.com
+-----  BEGIN  hlrad -----
+Command line: "Z:/home/martin/.steam/debian-installation/steamapps/common/Sven Co-op SDK/mapping/compilers/SC-RAD_x64.exe" "Z:\home\martin\.steam\debian-installation\steamapps\common\Sven Co-op\svencoop_addon\maps\Ragemap2023C_Mikk" 
+Arguments: "Z:\home\martin\.steam\debian-installation\steamapps\common\Sven Co-op\svencoop_addon\maps\Ragemap2023C_Mikk" 
+
+-= Current hlrad Settings =-
+Setting                        |  Map value            |  Default value        
+-------------------------------|-----------------------|-----------------------
+Verbose                         [                 off ] [                 off ]
+Log                             [                  on ] [                  on ]
+Developer mode                  [                   0 ] [                   0 ]
+Estimate times                  [                 off ] [                 off ]
+Statistics chart                [                 off ] [                 off ]
+CPU thread count                [                   2 ] [              Varies ]
+CPU process priority            [              Normal ] [              Normal ]
+Texture data memory limit       [            67108864 ] [            67108864 ]
+Lighting data memory limit      [            67108864 ] [            67108864 ]
+
+Fast mode                       [                 off ] [                 off ]
+Extra mode                      [                 off ] [                 off ]
+Visibility matrix               [              Sparse ] [              Sparse ]
+Bounces                         [                   8 ] [                   8 ]
+Ambient world light (R G B)     [   0.000 0.000 0.000 ] [   0.000 0.000 0.000 ]
+Light clipping threshold        [             188.000 ] [             188.000 ]
+Circus mode?                    [                 off ] [                 off ]
+Disable sunlight spread angles? [                 off ] [                 off ]
+Disable opaque light flags?     [                 off ] [                 off ]
+Smoothing t.hold for blending   [              50.000 ] [              50.000 ]
+Smoothing t.hold diff textures  [                 N/A ] [                 N/A ]
+Patch size for normal textures  [              64.000 ] [              64.000 ]
+Patch size for t-light faces    [              32.000 ] [              32.000 ]
+Scale patches with texture?     [                  on ] [                  on ]
+Patch subdividing?              [                  on ] [                  on ]
+Lighting threshold before black [               0.010 ] [               0.010 ]
+Direct lighting threshold       [              10.000 ] [              10.000 ]
+Direct lighting scale           [               1.000 ] [               1.000 ]
+Disable interpolation?          [                 off ] [                 off ]
+Global fade                     [               1.000 ] [               1.000 ]
+Global gap distance for t-light [               0.000 ] [               0.000 ]
+Global light scale (R G B)      [   2.000 2.000 2.000 ] [   2.000 2.000 2.000 ]
+Global gamma (R G B)            [   0.550 0.550 0.550 ] [   0.550 0.550 0.550 ]
+Ambient sunlight shade contrib. [               1.000 ] [               1.000 ]
+Disable sky light being global? [                 off ] [                 off ]
+Use incremental transfer list?  [                 off ] [                 off ]
+Dump light patches?             [                 off ] [                 off ]
+Colour jitter (R G B)           [         0.0 0.0 0.0 ] [         0.0 0.0 0.0 ]
+Monochromatic jitter (R G B)    [         0.0 0.0 0.0 ] [         0.0 0.0 0.0 ]
+Custom shadows with bounces?    [                 off ] [                 off ]
+Enable RBG transfers?           [                 off ] [                 off ]
+Minimum final light             [                   0 ] [                   0 ]
+Compress transfers?             [               16bit ] [               16bit ]
+Compress RGB transfers?         [               32bit ] [               32bit ]
+Smooth skylight?                [                  on ] [                  on ]
+Thickness of translucent faces  [               2.000 ] [               2.000 ]
+Remove black around opaques?    [                  on ] [                  on ]
+Don't load textures?            [                 off ] [                 off ]
+Reflection gamma                [               1.760 ] [               1.760 ]
+Reflection scale                [               0.700 ] [               0.700 ]
+Blur size                       [               1.500 ] [               1.500 ]
+Don't fix pointy t-lights?      [                 off ] [                 off ]
+Don't fix wall bleeding?        [                 off ] [                 off ]
+
+
+Load Textures:
+Using Wadfile: Z:\home\martin\.steam\debian-installation\steamapps\common\Sven Co-op\svencoop_addon\maps\Ragemap2023C_Mikk.wa_
+8 textures referenced
+Reading texlights from 'Z:\home\martin\.steam\debian-installation\steamapps\common\Sven Co-op SDK\mapping\compilers\lights.rad'
+0 opaque models
+0 opaque faces
+174 faces
+Create Patches : 313 base patches
+28456 square feet [4097762.50 square inches]
+1 direct lights and 16386 fast direct lights
+1 light styles
+
+FindFacePositions:
+ (0.15 seconds)
+BuildFacelights:
+ (0.57 seconds)
+BuildVisLeafs:
+ (0.01 seconds)
+visibility matrix   :   0.0 megs
+MakeScales:
+ (0.07 seconds)
+Transfer Lists :       11002 :    11.00k transfers
+       Indices :       10588 :    10.34k bytes
+          Data :       22853 :    22.32k bytes
+Bounce 1 GatherLight:
+ (0.01 seconds)
+Bounce 2 GatherLight:
+ (0.01 seconds)
+Bounce 3 GatherLight:
+ (0.01 seconds)
+Bounce 4 GatherLight:
+ (0.03 seconds)
+Bounce 5 GatherLight:
+ (0.01 seconds)
+Bounce 6 GatherLight:
+ (0.01 seconds)
+Bounce 7 GatherLight:
+ (0.01 seconds)
+Bounce 8 GatherLight:
+ (0.02 seconds)
+CreateTriangulations:
+ (0.01 seconds)
+AddPatchLights:
+ (0.06 seconds)
+FinalLightFace:
+ (0.03 seconds)
+1.35 seconds elapsed
+
+-----   END   hlrad -----
+
+
+
