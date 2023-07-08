@@ -1,0 +1,43 @@
+@PointClass = trigger_radius : "Mensajes"
+[
+	target(target_destination) : "Target"
+
+	message(string) : "Message Text"
+	netname(integer) : "Radius" : 0
+	frags(float) : "think time" : 0.0
+	health(choices) : "Fire for" : 0 =
+	[
+		0 : "any character"
+		1 : "Water only"
+		2 : "Fire only"
+	]
+]
+
+@PointClass = trigger_door_fire : "Puerta ekisde"
+[
+	target(target_destination) : "Next door name"
+	targetname(target_source) : "This door name"
+]
+@PointClass = trigger_door_water : "Puerta ekisde"
+[
+	target(target_destination) : "Next door name"
+	targetname(target_source) : "This door name"
+]
+
+@PointClass = trigger_fluid : "Func Fluidos de Sare"
+[
+	frags(choices) : "Fluid type" : 0 =
+	[
+		0 : "Acid"
+		1 : "Water"
+		2 : "Fire"
+	]
+	message(choices) : "Fluid Size" : 0 =
+	[
+		0 : "Very Small"
+		1 : "Small"
+		2 : "Medium"
+		3 : "Big"
+		4 : "Extra big"
+	]
+]
