@@ -2,6 +2,7 @@ mixin class CDoors
 {
     private dictionary dict_door;
     private CBaseEntity@ m_pDoor = null;
+    private USE_TYPE m_DoorTypeTrigger = USE_OFF;
 
     void Spawn()
     {
@@ -19,7 +20,7 @@ mixin class CDoors
         {
             string iszVec = self.pev.origin.ToString();
 
-            if( self.pev.classname == 'trigger_door_fire' )
+            if( self.pev.classname == 'mikk_door_fire' )
             {
                 mikk_Character.VecSpawnFire = iszVec;
             }
@@ -33,9 +34,20 @@ mixin class CDoors
             self.pev.solid = SOLID_TRIGGER;
             g_EntityFuncs.SetSize( self.pev, Vector( -32, -32, -32 ), Vector( 32, 32, 32 ) );
             SetTouch( TouchFunction( this.Touch ) );
+            SetThink( ThinkFunction( this.Think ) );
+            self.pev.nextthink = g_Engine.time + 0.1f;
         }
 
         BaseClass.Spawn();
+    }
+
+    void Think()
+    {
+        m_pDoor.Use( null, null, m_DoorTypeTrigger, 0.0f );
+
+        m_DoorTypeTrigger = USE_OFF;
+
+        self.pev.nextthink = g_Engine.time + 1.0f;
     }
 
     void PostSpawn()
@@ -50,7 +62,7 @@ mixin class CDoors
             string model_fire = door_fire.pev.model;
             string model_frame = door_frame.pev.model;
 
-            if( self.pev.classname == 'trigger_door_fire' )
+            if( self.pev.classname == 'mikk_door_fire' )
             {
                 dict_door[ 'model' ] = model_fire;
             }
@@ -73,12 +85,10 @@ mixin class CDoors
     {
         if( pOther !is null && pOther.IsPlayer() && pOther.IsAlive() )
         {
-            if(self.pev.classname == 'trigger_door_fire' && pOther.pev.targetname == 'fireboy' 
-            or self.pev.classname == 'trigger_door_water' && pOther.pev.targetname == 'watergirl' )
+            if(self.pev.classname == 'mikk_door_fire' && pOther.pev.targetname == 'fireboy' 
+            or self.pev.classname == 'mikk_door_water' && pOther.pev.targetname == 'watergirl' )
             {
-                m_pDoor.Use( null, null, USE_ON, 0.0f );
-
-                // -TODO Efectos visuales
+                m_DoorTypeTrigger = USE_ON;
                 mikk_util.CKV( pOther, "$v_mikk_oldorigin_" + pOther.pev.targetname, self.pev.origin.ToString() );
 
                 if( self.pev.target != '' )
@@ -88,9 +98,12 @@ mixin class CDoors
                     if( pTarget !is null )
                     {
                         g_EntityFuncs.SetOrigin( pOther, pTarget.pev.origin );
+
+                        g_EntityFuncs.FireTargets( self.pev.netname, pOther, self, USE_TOGGLE, 0.0f );
+                        mikk_util.CKV( pOther, "$v_mikk_cam_overview", self.pev.message );
                     }
                 }
-                m_pDoor.Use( null, null, USE_OFF, 0.0f );
+                // m_pDoor.Use( null, null, USE_OFF, 0.0f );
             }
         }
     }

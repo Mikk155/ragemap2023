@@ -1,4 +1,6 @@
-@PointClass = trigger_radius : "Mensajes"
+@PointClass = mikk_info_camera_overview : "Overview point" []
+
+@PointClass = mikk_trigger_radius : "Mensajes n trigger"
 [
 	target(target_destination) : "Target"
 
@@ -13,18 +15,23 @@
 	]
 ]
 
-@PointClass = trigger_door_fire : "Puerta ekisde"
+@BaseClass = CDoors
 [
 	target(target_destination) : "Next door name"
 	targetname(target_source) : "This door name"
-]
-@PointClass = trigger_door_water : "Puerta ekisde"
-[
-	target(target_destination) : "Next door name"
-	targetname(target_source) : "This door name"
+	netname(target_destination) : "Fire on Enter"
+	spawnflags(Flags) =
+	[
+		1 : "World Pointer spawn" : 0
+	]
+	message(target_destination) : "New Camera Overview"
 ]
 
-@PointClass = trigger_fluid : "Func Fluidos de Sare"
+@PointClass base( CDoors ) = mikk_door_fire : "Puerta d fuego ekisde" []
+
+@PointClass base( CDoors ) = mikk_door_water : "Puerta d agua ekisde" []
+
+@PointClass = mikk_trigger_fluid : "Func Fluidos de Sare"
 [
 	frags(choices) : "Fluid type" : 0 =
 	[
@@ -39,5 +46,27 @@
 		2 : "Medium"
 		3 : "Big"
 		4 : "Extra big"
+	]
+]
+
+@PointClass = mikk_trigger_switch : "Palanca d mierda"
+[
+	spawnflags(Flags) =
+	[
+		1 : "Start ON" : 0
+	]
+	netname(target_destination) : "Fire when switched OFF"
+	max_health(choices) : "Use when switched ON" : 0 =
+	[
+		0: "Off"
+		1: "On"
+		2: "Toggle"
+	]
+	message(target_destination) : "Fire when switched ON"
+	health(choices) : "Use when switched ON" : 1 =
+	[
+		0: "Off"
+		1: "On"
+		2: "Toggle"
 	]
 ]

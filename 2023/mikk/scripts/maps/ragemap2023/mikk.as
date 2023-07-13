@@ -1,12 +1,8 @@
 #include "mikk/CFluids"
-class trigger_fluid : ScriptBaseEntity, CFluids {}
 
 #include "mikk/CDoors"
-class trigger_door_fire : ScriptBaseEntity, CDoors {}
-class trigger_door_water : ScriptBaseEntity, CDoors {}
 
 #include "mikk/CRadius"
-class trigger_radius : ScriptBaseEntity, CRadius {}
 
 #include "mikk/CUtils"
 CUtils mikk_util;
@@ -19,6 +15,9 @@ CMessager mikk_Message;
 
 #include "mikk/GMap"
 GMap mikk_Map;
+
+#include "mikk/CSwitch"
+
 
 /*
 Ctrl+f "-TODO"
@@ -42,12 +41,19 @@ Ctrl+f "-TODO"
 
 namespace mikk
 {
+    class mikk_trigger_fluid : ScriptBaseEntity, CFluids {}
+    class mikk_door_fire : ScriptBaseEntity, CDoors {}
+    class mikk_door_water : ScriptBaseEntity, CDoors {}
+    class mikk_trigger_radius : ScriptBaseEntity, CRadius {}
+    class mikk_trigger_switch : ScriptBaseEntity, CSwitch {}
+
     void MapInit()
     {
-        g_CustomEntityFuncs.RegisterCustomEntity( 'mikk::trigger_fluid', 'trigger_fluid' );
-        g_CustomEntityFuncs.RegisterCustomEntity( 'mikk::trigger_radius', 'trigger_radius' );
-        g_CustomEntityFuncs.RegisterCustomEntity( 'mikk::trigger_door_fire', 'trigger_door_fire' );
-        g_CustomEntityFuncs.RegisterCustomEntity( 'mikk::trigger_door_water', 'trigger_door_water' );
+        g_CustomEntityFuncs.RegisterCustomEntity( 'mikk::mikk_trigger_fluid', 'mikk_trigger_fluid' );
+        g_CustomEntityFuncs.RegisterCustomEntity( 'mikk::mikk_trigger_radius', 'mikk_trigger_radius' );
+        g_CustomEntityFuncs.RegisterCustomEntity( 'mikk::mikk_trigger_switch', 'mikk_trigger_switch' );
+        g_CustomEntityFuncs.RegisterCustomEntity( 'mikk::mikk_door_fire', 'mikk_door_fire' );
+        g_CustomEntityFuncs.RegisterCustomEntity( 'mikk::mikk_door_water', 'mikk_door_water' );
     }
 
     void Hooks( CBaseEntity@ pActivator, CBaseEntity@ pCaller, USE_TYPE UseType, float fdelay )
@@ -62,10 +68,10 @@ namespace mikk
         {
             g_Hooks.RemoveHook( Hooks::Player::PlayerKilled, @PlayerKilled );
             g_Hooks.RemoveHook( Hooks::Player::PlayerPreThink, @ClientThink );
-            g_CustomEntityFuncs.UnRegisterCustomEntity( 'trigger_fluid' );
-            g_CustomEntityFuncs.UnRegisterCustomEntity( 'trigger_radius' );
-            g_CustomEntityFuncs.UnRegisterCustomEntity( 'trigger_door_fire' );
-            g_CustomEntityFuncs.UnRegisterCustomEntity( 'trigger_door_water' );
+            g_CustomEntityFuncs.UnRegisterCustomEntity( 'mikk_trigger_fluid' );
+            g_CustomEntityFuncs.UnRegisterCustomEntity( 'mikk_trigger_radius' );
+            g_CustomEntityFuncs.UnRegisterCustomEntity( 'mikk_door_fire' );
+            g_CustomEntityFuncs.UnRegisterCustomEntity( 'mikk_door_water' );
         }
     }
 
